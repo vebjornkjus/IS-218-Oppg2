@@ -1,0 +1,1 @@
+// Hovedfil som setter opp server hvis det blir nødvendig
