@@ -1,84 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oppgave-2</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <style>
-        #map {
-            height: 100vh;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oppgave-2</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+  <style>
+    #map { 
+      height: 100vh; 
+    }
+  </style>
 </head>
 <body>
-    <div id="map"></div>
+  <div id="map"></div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- MarkerCluster JS -->
+  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+  <!-- Heatmap JS -->
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+  <!-- Leaflet Draw JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+  <!-- TurfJS for spatial analysis -->
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+  <!-- Supabase JS-klient -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-    <script>
-        // Lag kartet
-        var map = L.map('map').setView([58.1467, 7.9956], 1); // Sentrer kartet på Kristiansand, Agder
+  <script>
+    // Initialiser Supabase-klienten (brukes evt. senere)
+    const supabaseUrl = 'https://twxrfjjeztbgyjxftyec.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3eHJmamplenRiZ3lqeGZ0eWVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYyNTgzMzQsImV4cCI6MjA1MTgzNDMzNH0.A5Rh4yrDJpQqsDDKxjHcXWbXcwwhkL3kTEu1QaeCsfg';
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // Legg til basemap
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    async function initializeMap() {
+      // Opprett kartet med et passende utgangspunkt
+      const map = L.map('map').setView([58.1467, 7.9956], 1);
+
+      // Legg til basiskart
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      // Hent lokalt GeoJSON for populated_places (ligger i samme mappe som index.html)
+      let populatedPlaces;
+      try {
+        const response = await fetch('data/processed/populated_places_4326.geojson');
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        populatedPlaces = await response.json();
+      } catch (error) {
+        console.error("Error loading populated_places_4326.geojson:", error);
+        return;
+      }
+
+      // Lag lagene for populated_places
+
+      // Dot Map
+      const dotLayer = L.geoJSON(populatedPlaces, {
+        pointToLayer: (feature, latlng) => {
+          return L.circleMarker(latlng, {
+            radius: 5,
+            fillColor: "#ff7800",
+            color: "#000",
+            weight: 1,
+            opacity: 0,
+            fillOpacity: 0.4
+          });
+        }
+      });
+
+      // Cluster Map
+      const clusterLayer = L.markerClusterGroup();
+      L.geoJSON(populatedPlaces, {
+        pointToLayer: (feature, latlng) => L.marker(latlng)
+      }).addTo(clusterLayer);
+
+      // Heat Map
+      const heatLayer = L.heatLayer(
+        populatedPlaces.features.map(feature => [
+          feature.geometry.coordinates[1], // Latitude
+          feature.geometry.coordinates[0]  // Longitude
+        ]),
+        {
+          radius: 50,
+          blur: 10,
+          maxZoom: 10,
+          gradient: { 0.4: 'blue', 0.65: 'lime', 1: 'red' }
+        }
+      );
+
+      // Initialiser risikolaget som en tom gruppe
+      let riskLayer = L.layerGroup().addTo(map);
+
+      // Hent Flomkart-GeoJSON.
+      try {
+        const riskResponse = await fetch('data/processed/Flomkart.geojson');
+        if (!riskResponse.ok) {
+          throw new Error(`Network response was not ok: ${riskResponse.statusText}`);
+        }
+        const flomData = await riskResponse.json();
+        riskLayer.clearLayers();
+        riskLayer.addLayer(L.geoJSON(flomData, {
+          style: function(feature) {
+            return { color: 'blue', weight: 2 };
+          },
+          onEachFeature: function(feature, layer) {
+            if (feature.properties && feature.properties.gml_id) {
+              layer.bindPopup("GML ID: " + feature.properties.gml_id);
+            }
+          }
+        }));
+      } catch (error) {
+        console.error("Error loading Flomkart.geojson:", error);
+      }
+
+      // Legg til lagene i kartet med lagkontroll
+      const overlayMaps = {
+        "Dot Map": dotLayer,
+        "Cluster Map": clusterLayer,
+        "Heat Map": heatLayer,
+        "Flomkart": riskLayer
+      };
+
+      L.control.layers(null, overlayMaps).addTo(map);
+      // Legg til standard lag
+      dotLayer.addTo(map);
+
+      // Legg til Leaflet.draw for interaktiv tegning
+      const drawnItems = new L.FeatureGroup();
+      map.addLayer(drawnItems);
+
+      const drawControl = new L.Control.Draw({
+        edit: { featureGroup: drawnItems },
+        draw: {
+          polygon: true,
+          polyline: false,
+          rectangle: true,
+          circle: true,
+          marker: false
+        }
+      });
+      map.addControl(drawControl);
+
+      map.on(L.Draw.Event.CREATED, function (e) {
+        const layer = e.layer;
+        drawnItems.addLayer(layer);
+
+        // Bruk TurfJS til å opprette en buffer på 5 km rundt det tegnede området
+        const drawnGeoJSON = layer.toGeoJSON();
+        const buffered = turf.buffer(drawnGeoJSON, 5, { units: 'kilometers' });
+        L.geoJSON(buffered, {
+          style: { color: 'green', weight: 2, fillOpacity: 0.2 }
         }).addTo(map);
+        layer.bindPopup("Buffer på 5 km opprettet rundt dette området").openPopup();
+      });
+    }
 
-        // Hent data fra GeoJSON-fil
-        fetch('populated_places_4326.geojson')
-            .then(response => response.json())
-            .then(data => {
-                // Dot-map
-                const dotLayer = L.geoJSON(data, {
-                    pointToLayer: (feature, latlng) => {
-                        return L.circleMarker(latlng, {
-                            radius: 5,
-                            fillColor: "#ff7800",
-                            color: "#000",
-                            weight: 1,
-                            opacity: 0,
-                            fillOpacity: 0.4
-                        });
-                    }
-                }); addTo(map);
-
-                // Clustering
-                const clusterLayer = L.markerClusterGroup();
-                L.geoJSON(data, {
-                    pointToLayer: (feature, latlng) => {
-                        return L.marker(latlng);
-                    }
-                }).addTo(clusterLayer);
-
-                // Heatmap
-                const heatLayer = L.heatLayer(
-                    data.features.map(feature => [
-                        feature.geometry.coordinates[1], // Latitude
-                        feature.geometry.coordinates[0] // Longitude
-                    ]), {
-                        radius: 50,
-                        blur: 10,
-                        maxZoom: 10,
-                        gradient: {0.4: 'blue', 0.65: 'lime', 1: 'red'}
-                    }
-                );
-
-                // Legg til lagene i kartet med layer control
-                const overlayMaps = {
-                    "Dot Map": dotLayer,
-                    "Cluster Map": clusterLayer,
-                    "Heat Map": heatLayer
-                };
-
-                L.control.layers(null, overlayMaps).addTo(map);
-
-                // Default layers
-                dotLayer.addTo(map);
-            })
-            .catch(err => console.error("Feil ved lasting av GeoJSON:", err));
-    </script>
+    // Start initialisering av kartet
+    initializeMap();
+  </script>
 </body>
 </html>
