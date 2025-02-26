@@ -31,8 +31,20 @@
     <link rel="stylesheet" href="css/map.css" />
 </head>
 <body>
+    <div id="sidebar">
+      <div class="sidebar-header">
+        <h2>Kartlag</h2>
+        <button id="toggle-btn">←</button>
+      </div>
+      <ul id="layer-list">
+        <!-- Ditt innhold for lagkontroll, knapper, osv. -->
+      </ul>
+      <!-- Drag-handle for å justere bredde -->
+      <div id="drag-handle"></div>
+    </div>
+  
     <div id="map"></div>
-
+    
     <!-- External Libraries (updated order) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
