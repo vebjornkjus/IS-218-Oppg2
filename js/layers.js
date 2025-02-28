@@ -2,8 +2,6 @@
 
 import { supabaseClient } from './config.js';
 
-// Then replace all instances of 'supabase' with 'supabaseClient' in your code
-
 /**
  * Henter data fra en tabell i Supabase og returnerer et Leaflet LayerGroup.
  * @param {string} tableName - Navnet på tabellen i Supabase
@@ -33,6 +31,27 @@ async function fetchAndCreateLayer(tableName, geometryField, fields) {
 
     console.log(`Retrieved ${data.length} features for ${tableName}`);
     console.log('First feature:', data[0]);
+
+    // Opprett tilpasset ikon basert på tabellnavn
+    let customIcon = null;
+    
+    if (tableName === 'tilfluktsrom') {
+      // Tilfluktsrom-ikon med samme tilnærming som bombetreffpunkt
+      customIcon = L.divIcon({
+        html: '<i class="fa-solid fa-person-shelter" style="font-size: 24px; color: #2980b9;"></i>',
+        className: 'custom-icon',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+      });
+    } else if (tableName === 'brannstasjon') {
+      // Brannstasjon-ikon
+      customIcon = L.divIcon({
+        html: '<i class="fa-solid fa-fire-extinguisher" style="font-size: 24px; color: #e74c3c;"></i>',
+        className: 'custom-icon',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+      });
+    }
 
     data.forEach((row, index) => {
       try {
@@ -68,7 +87,8 @@ async function fetchAndCreateLayer(tableName, geometryField, fields) {
           },
           pointToLayer: (feature, latlng) => {
             console.log(`Creating marker at ${latlng} for ${tableName}`);
-            return L.marker(latlng);
+            // Bruk det tilpassede ikonet hvis det er definert, ellers bruk standardmarkør
+            return customIcon ? L.marker(latlng, { icon: customIcon }) : L.marker(latlng);
           },
         });
 
@@ -122,13 +142,13 @@ export async function getBefolkningstallLayer() {
     'gml_id',
     'lokalId', 
     'navnerom',
-    'versjonId', // Note: changed from versjonId
+    'versjonId',
     'oppdateringsdato',
     'datauttaksdato',
     'opphav',
     'ssbid250m',
-    'popTot',   // Note: changed from popTot
-    'statistikkAr' // Note: changed from statistikkAr
+    'popTot',
+    'statistikkAr'
   ]);
 
   // Add debug logging
