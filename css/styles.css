@@ -1,0 +1,86 @@
+.bomb-selector-section {
+    padding: 15px;
+    margin-top: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  .bomb-selector-section h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+  }
+  
+  .bomb-list {
+    margin: 15px 0;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .bomb-item {
+    margin: 8px 0;
+    padding: 5px;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+  }
+  
+  .bomb-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .bomb-item input[type="radio"] {
+    margin-right: 8px;
+  }
+  
+  .bomb-item label {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  .instructions {
+    font-style: italic;
+    color: #666;
+    margin-top: 15px;
+    padding-top: 8px;
+    border-top: 1px dashed #ccc;
+  }
+  
+  .legend-toggle-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .legend-toggle-btn:hover {
+    background-color: #45a049;
+  }
+  
+.explosion-icon {
+    background: none !important;
+    border: none;
+    box-shadow: none !important;
+  }
+  
+  .explosion-icon i {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    animation: pulse 1.5s infinite alternate;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.2);
+      opacity: 0.8;
+    }
+  }
