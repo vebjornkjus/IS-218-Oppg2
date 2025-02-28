@@ -1,51 +1,139 @@
-// layers.js
+// Fil: js/layers.js
+
 import { supabaseClient } from './config.js';
 
-export class MapLayers {
-  constructor(map) {
-    this.map = map;
-  }
+// Then replace all instances of 'supabase' with 'supabaseClient' in your code
 
-  async initializeLayers() {
-    try {
-      const heatData = await this.fetchHeatData();
-      console.log('Fetched heat data:', heatData); // <-- Debug
-      this.createHeatLayer(heatData);
-    } catch (error) {
-      console.error('Error in initializeLayers:', error);
-    }
-  }
+/**
+ * Henter data fra en tabell i Supabase og returnerer et Leaflet LayerGroup.
+ * @param {string} tableName - Navnet på tabellen i Supabase
+ * @param {string} geometryField - Navnet på kolonnen som inneholder geometri (f.eks. "geom")
+ * @param {string[]} fields - Liste over andre kolonner du ønsker å hente
+ */
 
-  async fetchHeatData() {
-    // ST_X/ ST_Y return the longitude/latitude for a POINT geometry in PostGIS
+async function fetchAndCreateLayer(tableName, geometryField, fields) {
+  const layerGroup = L.layerGroup();
+
+  try {
+    console.log(`Fetching data for ${tableName}...`);
     const { data, error } = await supabaseClient
-      .from('populated_places_view')
-      .select('id, latitude, longitude');
+      .rpc('get_geojson_features', {
+        table_name: tableName
+      });
 
     if (error) {
-      console.error('Error fetching heat data from view:', error);
-      return [];
+      console.error(`Feil ved henting av data fra ${tableName}:`, error);
+      return layerGroup;
     }
 
-    // Convert each row into a Leaflet.heat-compatible triplet: [lat, lon, intensity]
-    return data.map((row) => [row.latitude, row.longitude, 1]);
-  }
+    if (!data || !data.length) {
+      console.warn(`Ingen data funnet for ${tableName}`);
+      return layerGroup;
+    }
 
-  createHeatLayer(heatData) {
-    // Create the heat layer
-    const heatLayer = L.heatLayer(heatData, {
-      radius: 25,
-      blur: 15,
-      maxZoom: 17,
+    console.log(`Retrieved ${data.length} features for ${tableName}`);
+    console.log('First feature:', data[0]);
+
+    data.forEach((row, index) => {
+      try {
+        if (!row.geojson) {
+          console.warn(`Missing geometry for row ${index} in ${tableName}:`, row);
+          return;
+        }
+
+        // Debug coordinate values
+        console.log(`Coordinates for ${tableName}:`, {
+          raw: row.geojson.coordinates,
+          lat: row.geojson.coordinates[1],
+          lng: row.geojson.coordinates[0]
+        });
+
+        const geojsonFeature = {
+          type: 'Feature',
+          geometry: row.geojson,
+          properties: row.properties || {}
+        };
+
+        console.log(`Processing feature ${index} for ${tableName}:`, geojsonFeature);
+
+        const gj = L.geoJSON(geojsonFeature, {
+          onEachFeature: (feature, layer) => {
+            let popupContent = `<h4>${tableName.toUpperCase()}</h4>`;
+            Object.entries(feature.properties).forEach(([key, value]) => {
+              if (key !== 'geom') {
+                popupContent += `<strong>${key}:</strong> ${value ?? ''}<br/>`;
+              }
+            });
+            layer.bindPopup(popupContent);
+          },
+          pointToLayer: (feature, latlng) => {
+            console.log(`Creating marker at ${latlng} for ${tableName}`);
+            return L.marker(latlng);
+          },
+        });
+
+        gj.addTo(layerGroup);
+      } catch (e) {
+        console.error(`Error processing feature ${index} in ${tableName}:`, e);
+      }
     });
 
-    // Add the heat layer to the map
-    heatLayer.addTo(this.map);
-
-    // Optional: automatically fit the map to your data’s bounding box
-    if (heatData.length > 0) {
-      const latLngs = heatData.map(([lat, lon]) => L.latLng(lat, lon));
-      this.map.fitBounds(L.latLngBounds(latLngs));
-    }
+    console.log(`Successfully loaded ${data.length} features for ${tableName}`);
+    return layerGroup;
+  } catch (e) {
+    console.error(`Error in fetchAndCreateLayer for ${tableName}:`, e);
+    return layerGroup;
   }
+}
+
+export async function getTilfluktsromLayer() {
+  return await fetchAndCreateLayer('tilfluktsrom', 'geom', [
+    'id',
+    'geom',
+    'gml_id',
+    'lokalId',
+    'navnerom',
+    'versjonId',
+    'datauttaksdato',
+    'opphav',
+    'romnr',
+    'plasser',
+    'adresse'
+  ]);
+}
+
+export async function getBrannstasjonLayer() {
+  return await fetchAndCreateLayer('brannstasjon', 'geom', [
+    'id',
+    'geom',
+    'gml_id',
+    'opphav',
+    'brannstasjon',
+    'brannvesen',
+    'stasjonstype',
+    'kasernert'
+  ]);
+}
+
+export async function getBefolkningstallLayer() {
+  const layer = await fetchAndCreateLayer('befolkningstall', 'geom', [
+    'id',
+    'geom',
+    'gml_id',
+    'lokalId', 
+    'navnerom',
+    'versjonId', // Note: changed from versjonId
+    'oppdateringsdato',
+    'datauttaksdato',
+    'opphav',
+    'ssbid250m',
+    'popTot',   // Note: changed from popTot
+    'statistikkAr' // Note: changed from statistikkAr
+  ]);
+
+  // Add debug logging
+  console.log('Befolkningstall layer created:', layer);
+  console.log('Number of features:', layer.getLayers().length);
+  
+  return layer;
 }
