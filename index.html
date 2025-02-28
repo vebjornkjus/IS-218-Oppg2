@@ -5,24 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Updated CSP with all necessary domains -->
     <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self' https://*.supabase.co;
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' 
-            https://*.supabase.co
-            https://unpkg.com
-            https://cdnjs.cloudflare.com
-            https://cdn.jsdelivr.net
-            https://cdn.honey.io;
-        style-src 'self' 'unsafe-inline'
-            https://unpkg.com
-            https://cdnjs.cloudflare.com
-            https://cdn.honey.io;
-        img-src 'self' data: 
-            https://*.tile.openstreetmap.org 
-            https://cdn.honey.io;
-        connect-src 'self' 
-            https://*.supabase.co 
-            https://*.tile.openstreetmap.org;
-    ">
+    default-src 'self' https://*.supabase.co;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' 
+        https://*.supabase.co
+        https://unpkg.com
+        https://cdnjs.cloudflare.com
+        https://cdn.jsdelivr.net
+        https://cdn.honey.io
+        https://esm.sh;
+    style-src 'self' 'unsafe-inline'
+        https://unpkg.com
+        https://cdnjs.cloudflare.com
+        https://cdn.honey.io;
+    img-src 'self' data: 
+        https://*.tile.openstreetmap.org 
+        https://cdn.honey.io
+        https://unpkg.com;
+    connect-src 'self' 
+        https://*.supabase.co 
+        https://*.tile.openstreetmap.org
+        https://esm.sh;
+">
     <title>Oppgave-2</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
@@ -44,20 +47,17 @@
     </div>
   
     <div id="map"></div>
-    
-    <!-- External Libraries (updated order) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Application Scripts -->
-    <script type="module" src="js/config.js"></script>
-    <script type="module" src="js/layers.js"></script>
-    <script type="module" src="js/draw.js"></script>
-    <script type="module" src="js/main.js"></script>
+  <!-- Leaflet og ekstrapakker -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+
+  <!-- Dine moduler (i riktig rekkefølge). Merk at vi bruker type="module" -->
+  <script type="module" src="js/config.js"></script>
+  <script type="module" src="js/layers.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
