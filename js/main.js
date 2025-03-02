@@ -94,7 +94,6 @@ function initializeNuclearEffects() {
   layerControl.addOverlay(brannstasjonLayer, 'Brannstasjoner');
 
   // Hent og legg til befolkningstall
-  const befolkningLayer = await getBefolkningstallLayer();
-  // Legger ikke til som default synlig på kartet
+  const befolkningLayer = await getBefolkningstallLayer(map);  // Added map parameter
   layerControl.addOverlay(befolkningLayer, 'Befolkningstall');
 })();
