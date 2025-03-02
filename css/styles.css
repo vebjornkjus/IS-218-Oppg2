@@ -92,19 +92,3 @@
     box-shadow: none !important;
   }
   
-  .custom-icon i {
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
-    animation: pulse 1.5s infinite alternate;
-  }
-  
-  /* Samme animasjon som brukes for eksplosjonikonet */
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1.2);
-      opacity: 0.8;
-    }
-  }
