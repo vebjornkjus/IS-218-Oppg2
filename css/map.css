@@ -17,7 +17,7 @@ body {
   float: left;
   position: relative;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Drop shadow */
-  transition: width 0.2s ease; /* Jevn animasjon ved endring av bredde */
+  transition: width 0.2s ease, padding 0.2s ease; /* Jevn animasjon ved endring av bredde */
 }
 
 /* Headerseksjon i sidepanelet */
@@ -48,9 +48,9 @@ body {
 
 /* Når sidepanelet er "collapsed" */
 #sidebar.collapsed {
-  width: 0 !important;
+  width: 0;
   overflow: hidden;
-  padding: auto;
+  padding: 0;
 }
 
 /* Drag-handle for å justere bredde */
@@ -71,7 +71,7 @@ body {
   height: 100%;
   float: left;
   position: relative;
-  transition: width 0.02s ease;
+  transition: width 0.2s ease; /* Jevn animasjon ved endring av bredde */
   user-select: none;
 }
 
@@ -82,4 +82,3 @@ body {
   border-radius: 4px;
   padding: 2px;
 }
-
