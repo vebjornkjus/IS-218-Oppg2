@@ -71,9 +71,15 @@ class NuclearEffectsVisualizer {
         if (this.selectedBomb && this.selectedBomb === this.bombs[bombName]) {
             this.selectedBomb = null;
             this.clearEffects();
+            document.querySelector(`input[name="bomb-select"][value="${bombName}"]`).checked = false;
         } else {
             this.selectedBomb = this.bombs[bombName];
             this.clearEffects();
+            document.querySelectorAll('input[name="bomb-select"]').forEach(input => {
+                if (input.value !== bombName) {
+                    input.checked = false;
+                }
+            });
         }
         return this.selectedBomb;
     }
