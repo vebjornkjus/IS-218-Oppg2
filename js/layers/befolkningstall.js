@@ -78,7 +78,7 @@ export async function getBefolkningstallLayer(map) {
                 }));
 
             allFeatures = [...allFeatures, ...newFeatures];
-            loadingDiv.textContent = `Loading: ${allFeatures.length} areas`;
+            loadingDiv.textContent = `Henter: ${allFeatures.length} områder med befolkningstall`;
             
             page++;
             hasMore = data.length === PAGE_SIZE;
