@@ -113,3 +113,45 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.marker-cluster {
+    background-clip: padding-box;
+    border-radius: 20px;
+}
+
+.marker-cluster div {
+    width: 40px;
+    height: 40px;
+    margin-left: 0;
+    margin-top: 0;
+    text-align: center;
+    border-radius: 20px;
+    font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.marker-cluster-small {
+    background-color: rgba(181, 226, 140, 0.6);
+}
+
+.marker-cluster-small div {
+    background-color: rgba(228, 251, 73, 0.6);
+}
+
+.marker-cluster-medium {
+    background-color: rgba(241, 211, 87, 0.6);
+}
+
+.marker-cluster-medium div {
+    background-color: rgba(240, 194, 12, 0.6);
+}
+
+.marker-cluster-large {
+    background-color: rgba(255, 121, 64, 0.6);
+}
+
+.marker-cluster-large div {
+    background-color: rgba(241, 59, 23, 0.6);
+}
