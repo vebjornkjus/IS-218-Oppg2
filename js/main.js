@@ -93,19 +93,23 @@ nuclearVisualizer.initMapClickEvent();
 }
 // IIFE (Immediately Invoked Function Expression) for å kunne bruke async/await
 (async function() {
-// Initialiser sidebar
-initializeSidebar(map);
-// Initialiser verktøy for atomvåpeneffekter
-initializeNuclearEffects();
-// Hent og legg til tilfluktsrom
-const tilfluktsromLayer = await getTilfluktsromLayer();
-tilfluktsromLayer.addTo(map);
-layerControl.addOverlay(tilfluktsromLayer, 'Tilfluktsrom');
-// Hent og legg til brannstasjoner
-const brannstasjonLayer = await getBrannstasjonLayer();
-// Legger ikke til som default synlig på kartet
-layerControl.addOverlay(brannstasjonLayer, 'Brannstasjoner');
-// Hent og legg til befolkningstall
-const befolkningLayer = await getBefolkningstallLayer(map); // Added map parameter
-layerControl.addOverlay(befolkningLayer, 'Befolkningstall');
+  // Initialiser sidebar
+  initializeSidebar(map);
+  
+  // Initialiser verktøy for atomvåpeneffekter
+  initializeNuclearEffects();
+  
+  // Hent og legg til tilfluktsrom
+  const tilfluktsromLayer = await getTilfluktsromLayer();
+  tilfluktsromLayer.addTo(map);
+  layerControl.addOverlay(tilfluktsromLayer, 'Tilfluktsrom');
+
+  // Hent og legg til brannstasjoner
+  const brannstasjonLayer = await getBrannstasjonLayer();
+  // Legger ikke til som default synlig på kartet
+  layerControl.addOverlay(brannstasjonLayer, 'Brannstasjoner');
+
+  // Hent og legg til befolkningstall
+  const befolkningLayer = await getBefolkningstallLayer(map);
+  layerControl.addOverlay(befolkningLayer, 'Befolkningstall');
 })();
