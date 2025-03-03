@@ -68,8 +68,13 @@ class NuclearEffectsVisualizer {
 
     // Sett valgt bombe
     selectBomb(bombName) {
-        this.selectedBomb = this.bombs[bombName];
-        this.clearEffects();
+        if (this.selectedBomb && this.selectedBomb === this.bombs[bombName]) {
+            this.selectedBomb = null;
+            this.clearEffects();
+        } else {
+            this.selectedBomb = this.bombs[bombName];
+            this.clearEffects();
+        }
         return this.selectedBomb;
     }
 
@@ -142,7 +147,7 @@ class NuclearEffectsVisualizer {
             <p>${bomb.description}</p>
             <p>Sprengkraft: ${bomb.yieldKt} kt</p>
         `).addTo(this.effectLayers).openPopup();
-            }
+    }
 
     // Hent navnet på den valgte bomben
     getSelectedBombName() {
@@ -167,20 +172,20 @@ class NuclearEffectsVisualizer {
 
         const bombList = bombSection.querySelector('.bomb-list');
         
-        // Lag en radioknapp for hver bombe
+        // Lag en avmerkingsboks for hver bombe
         Object.keys(this.bombs).forEach(bombName => {
             const bombItem = document.createElement('div');
             bombItem.className = 'bomb-item';
             bombItem.innerHTML = `
-                <input type="radio" name="bomb-select" id="${bombName.replace(/\s/g, '-')}" value="${bombName}">
+                <input type="checkbox" name="bomb-select" id="${bombName.replace(/\s/g, '-')}" value="${bombName}">
                 <label for="${bombName.replace(/\s/g, '-')}">${bombName}</label>
             `;
             bombList.appendChild(bombItem);
         });
 
-        // Legg til hendelseslyttere til radioknappene
+        // Legg til hendelseslyttere til avmerkingsboksene
         bombList.addEventListener('change', (e) => {
-            if (e.target.type === 'radio') {
+            if (e.target.type === 'checkbox') {
                 this.selectBomb(e.target.value);
             }
         });
