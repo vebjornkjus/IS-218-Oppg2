@@ -10,6 +10,7 @@ class NuclearEffectsVisualizer {
         this.effectLayers = L.layerGroup().addTo(map);
         this.bombs = this.getBombData();
         this.createLegend();
+        this.initMapClickEvent();
     }
 
     // Data om atomvåpen og deres effekter
@@ -146,13 +147,20 @@ class NuclearEffectsVisualizer {
         });
 
         // Legg til en markør med tilpasset eksplosjonsikon på nullpunktet
-        L.marker(latlng, {
-            icon: explosionIcon
+        const marker = L.marker(latlng, {
+            icon: explosionIcon,
+            draggable: true // Gjør markøren dra-bar
         }).bindPopup(`
             <h3>${this.getSelectedBombName()}</h3>
             <p>${bomb.description}</p>
             <p>Sprengkraft: ${bomb.yieldKt} kt</p>
         `).addTo(this.effectLayers).openPopup();
+
+        // Legg til dra-hendelse for å oppdatere effektene når markøren flyttes
+        marker.on('dragend', (e) => {
+            const newLatLng = e.target.getLatLng();
+            this.visualizeEffects(newLatLng);
+        });
     }
 
     // Hent navnet på den valgte bomben
