@@ -60,6 +60,6 @@ function initializeNuclearEffects() {
   layerControl.addOverlay(brannstasjonLayer, 'Brannstasjoner');
 
   // Hent og legg til befolkningstall
-  const befolkningLayer = await getBefolkningstallLayer(map);  // Added map parameter
+  const befolkningLayer = await getBefolkningstallLayer(map);
   layerControl.addOverlay(befolkningLayer, 'Befolkningstall');
 })();

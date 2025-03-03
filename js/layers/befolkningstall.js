@@ -42,11 +42,27 @@ export async function getBefolkningstallLayer(map) {
         chunkedLoading: true,
         maxClusterRadius: 80,
         spiderfyOnMaxZoom: true,
-        disableClusteringAtZoom: 13
+        disableClusteringAtZoom: 13,
+        iconCreateFunction: function(cluster) {
+            const markers = cluster.getAllChildMarkers();
+            const totalPopulation = markers.reduce((sum, marker) => {
+                return sum + (marker.feature?.properties?.popTot || 0);
+            }, 0);
+            
+            const className = totalPopulation > 5000 ? 'marker-cluster-large' :
+                            totalPopulation > 1000 ? 'marker-cluster-medium' :
+                            'marker-cluster-small';
+            
+            return L.divIcon({
+                html: `<div><span>${totalPopulation.toLocaleString()}</span></div>`,
+                className: `marker-cluster ${className}`,
+                iconSize: L.point(40, 40)
+            });
+        }
     });
 
     const featureLayer = L.featureGroup();
-    let allFeatures = []; // Store all features for later use
+    let allFeatures = [];
     let loadingDiv;
 
     try {
@@ -109,6 +125,7 @@ export async function getBefolkningstallLayer(map) {
                                     iconSize: [20, 20]
                                 })
                             });
+                            marker.feature = feature; // Add this line to attach the feature data to the marker
 
                             const content = `
                                 <h4>BEFOLKNINGSTALL</h4>
