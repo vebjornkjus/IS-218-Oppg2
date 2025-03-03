@@ -49,8 +49,8 @@ Vi har benyttet følgende tre åpne datasett:
 - **Evakueringstid:** Beregn tid for å evakuere til nærmeste tilfluktsrom.  
 
 ## 🎥 Demo  
-### 📸 Skjermbilder  
-![Eksempelbilde 1](https://github.com/vebjornkjus/IS-218-Oppg2/blob/main/images/Screenshot%202025-03-03%20015625.png?raw=true)  
+### 📸 Skjermbilder
+![Eksempelbilde 1](https://raw.githubusercontent.com/vebjornkjus/IS-218-Oppg2/main/images/Screenshot%202025-03-03%20015625.png)
 ![Eksempelbilde 2](docs/eksempel2.png)  
 
 ### 🎬 Video  
