@@ -68,26 +68,6 @@ Vi har benyttet følgende tre åpne datasett:
 
   
 
-## ⚙️ Installasjon  
-Følg disse stegene for å kjøre prosjektet lokalt:  
-
-1. **Klon repoet**  
-   ```bash
-   git clone https://github.com/vebjornkjus/IS-218-Oppg2.git
-   cd IS-219-Oppg2.git
-   ```
-2. **Installer avhengigheter**  
-   ```bash
-   npm install  
-   ```
-3. **Start backend**  
-   ```bash
-   npm run backend 
-   ```
-4. **Start frontend**  
-   ```bash
-   npm run dev
-   ```
 
 
 ## 📜 Lisens  
