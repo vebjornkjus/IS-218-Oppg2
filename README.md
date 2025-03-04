@@ -35,7 +35,7 @@ Vi har benyttet følgende tre åpne datasett:
 ### 🔹 Backend  
 - Supabase/PostGIS brukes til å lagre og håndtere geodata.  
 - API-et tilbyr endepunkter for å hente og beregne geografiske analyser, som for eksempel avstand til nærmeste tilfluktsrom.
-![Database](
+![Database](https://github.com/vebjornkjus/IS-218-Oppg2/blob/main/images/Tabeller1.png?raw=true)
 
 ### 🔹 Frontend  
 - **Leaflet**/Maplibre brukes til å visualisere kartdata som flammeradius, skadeområder og tilfluktsrom.  
