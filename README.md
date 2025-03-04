@@ -47,8 +47,7 @@ Vi har benyttet følgende tre åpne datasett:
 
 ## 🎥 Demo  
 ### 📸 Skjermbilder
-![Eksempelbilde 1](https://github.com/vebjornkjus/IS-218-Oppg2/blob/main/images/Screenshot%202025-03-03%20015625.png?raw=true)
-![Eksempelbilde 2](https://github.com/vebjornkjus/IS-218-Oppg2/blob/main/images/Screenshot%202025-03-03%20123456.png?raw=true)
+![Eksempelbilde 1](https://github.com/vebjornkjus/IS-218-Oppg2/blob/main/images/Screenshot.png?raw=true)
 
 ### 🎬 Video  
 [Legg inn en lenke til en kort demo-video eller en GIF her.]  
