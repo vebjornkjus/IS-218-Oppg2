@@ -28,7 +28,7 @@ Prosjektet bruker følgende teknologier:
 ## 🗺 Brukte datasett  
 Vi har benyttet følgende tre åpne datasett:  
 1. **Tilfluktsrom i Agder** – Kilde: GeoNorge  
-2. **Befolkningstall i Agder** – Kilde: https://kartkatalog.geonorge.no/metadata/befolkning-paa-rutenett-250-m/0c0ad0ce-55e8-4d73-9c12-0eb0e2454acb 
+2. **Befolkningstall i Agder** – Kilde: GeoNorge
 3. **Brannstasjoner i Agder** – Kilde: GeoNorge  
 
 ## 🚀 Implementasjon  
