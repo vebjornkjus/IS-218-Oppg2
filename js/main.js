@@ -21,6 +21,15 @@ L.control.zoom({
   position: 'topright' // Endre posisjonen til zoomkontrollene
 }).addTo(map);
 
+// Legg til målestokk på høyre side med tilpasset design
+L.control.scale({
+  position: 'bottomright', // Plasser målestokken på nederst til høyre
+  imperial: false,         // Bruk kun metriske enheter (meter, kilometer)
+  metric: true,            // Bruk metriske enheter
+  maxWidth: 150,           // Maksimal bredde på målestokken
+  updateWhenIdle: true     // Oppdater målestokken selv om kartet ikke beveger seg
+}).addTo(map);
+
 // Legg til det forbedrede kompasset på kartet
 new CompassControl().addTo(map);
 
