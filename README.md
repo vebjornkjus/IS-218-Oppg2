@@ -50,7 +50,10 @@ Vi har benyttet følgende tre åpne datasett:
 ![Eksempelbilde 1](https://github.com/vebjornkjus/IS-218-Oppg2/blob/main/images/Screenshot.png?raw=true)
 
 ### 🎬 Video  
-[Legg inn en lenke til en kort demo-video eller en GIF her.]  
+![GIF1](https://raw.githubusercontent.com/vebjornkjus/IS-218-Oppg2/main/images/9m77x6.gif)
+![GIF2](https://raw.githubusercontent.com/vebjornkjus/IS-218-Oppg2/main/images/9m782w.gif)
+
+  
 
 ## ⚙️ Installasjon  
 Følg disse stegene for å kjøre prosjektet lokalt:  
