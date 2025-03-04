@@ -36,15 +36,15 @@ Vi har benyttet følgende tre åpne datasett:
 - Supabase/PostGIS brukes til å lagre og håndtere geodata.  
 ![Database](https://github.com/vebjornkjus/IS-218-Oppg2/blob/main/images/Tabeller1.png?raw=true)
 
-##🛠 Backend-funksjoner
-###🔹 Befolkningstall (befolkningstall.js)
+## 🛠 Backend-funksjoner
+### 🔹 Befolkningstall (befolkningstall.js)
 - Laster befolkningsdata fra Supabase og visualiserer det på kartet.
 
 - Henter befolkningsdata fra supabaseClient.rpc('get_geojson_features', { table_name: 'befolkningstall' })
 -Lager klynger (clusters) med L.markerClusterGroup()
 -Fargekoder befolkningstetthet basert på getPopulationColor(popTot)
 
-###🔹 Tilfluktsrom (tilfluktsrom.js)
+### 🔹 Tilfluktsrom (tilfluktsrom.js)
 - Henter og viser tilfluktsrom på kartet.
 - Henter tilfluktsrom fra Supabase
 - Lager GeoJSON-lag med L.geoJSON()
