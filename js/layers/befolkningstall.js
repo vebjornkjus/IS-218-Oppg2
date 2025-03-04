@@ -25,7 +25,7 @@ const baseStyle = {
     fillOpacity: 0.7
 };
 
-// Throttle function to limit how often the moveend event fires
+// Throttle function to limit how often moveend fires
 function throttle(func, limit) {
     let inThrottle;
     return function(...args) {
@@ -74,7 +74,6 @@ export async function getBefolkningstallLayer(map) {
         let page = 0;
         let hasMore = true;
 
-        // Load all features first
         while (hasMore) {
             const { data, error } = await supabaseClient
                 .rpc('get_geojson_features', {
@@ -83,7 +82,8 @@ export async function getBefolkningstallLayer(map) {
                     page_size: PAGE_SIZE
                 });
 
-            if (error || !data || data.length === 0) break;
+            if (error) throw error;
+            if (!data || data.length === 0) break;
 
             const newFeatures = data
                 .filter(row => row.geojson)
@@ -101,54 +101,55 @@ export async function getBefolkningstallLayer(map) {
             await new Promise(resolve => setTimeout(resolve, 10));
         }
 
-        // Function to render features in viewport
+        if (allFeatures.length === 0) throw new Error("Ingen befolkningsdata tilgjengelig");
+
         const renderViewport = throttle(() => {
             const bounds = map.getBounds();
-            
+            const currentZoom = map.getZoom();
+
             featureLayer.clearLayers();
             clusterGroup.clearLayers();
 
             allFeatures.forEach(feature => {
                 const layer = L.geoJSON(feature);
                 if (layer.getBounds().intersects(bounds)) {
-                    const geoJsonLayer = L.geoJSON(feature, {
-                        style: (feature) => ({
-                            ...baseStyle,
-                            fillColor: getPopulationColor(feature.properties.popTot || 0)
-                        }),
-                        onEachFeature: (feature, layer) => {
-                            const center = layer.getBounds().getCenter();
-                            const marker = L.marker(center, {
-                                icon: L.divIcon({
-                                    className: 'population-marker',
-                                    html: `<div style="background-color: ${getPopulationColor(feature.properties.popTot || 0)}"></div>`,
-                                    iconSize: [20, 20]
-                                })
-                            });
-                            marker.feature = feature; // Add this line to attach the feature data to the marker
-
-                            const content = `
-                                <h4>BEFOLKNINGSTALL</h4>
-                                <strong>Befolkning:</strong> ${feature.properties.popTot || 0}<br/>
-                                <strong>Oppdatert:</strong> ${(feature.properties.oppdateringsdato || '').slice(0, 10)}<br/>
-                            `;
-                            marker.bindPopup(content);
-
-                            featureLayer.addLayer(layer);
-                            clusterGroup.addLayer(marker);
-                        }
-                    });
+                    if (currentZoom >= 13) {
+                        const geoJsonLayer = L.geoJSON(feature, {
+                            style: (feature) => ({
+                                ...baseStyle,
+                                fillColor: getPopulationColor(feature.properties.popTot || 0)
+                            }),
+                            onEachFeature: (feature, layer) => {
+                                const content = `
+                                    <h4>BEFOLKNINGSTALL</h4>
+                                    <strong>Befolkning:</strong> ${feature.properties.popTot || 0}<br/>
+                                    <strong>Oppdatert:</strong> ${(feature.properties.oppdateringsdato || '').slice(0, 10)}<br/>
+                                `;
+                                layer.bindPopup(content);
+                            }
+                        });
+                        featureLayer.addLayer(geoJsonLayer);
+                    } else {
+                        const center = layer.getBounds().getCenter();
+                        const marker = L.marker(center, {
+                            icon: L.divIcon({
+                                className: 'population-marker',
+                                html: `<div style="background-color: ${getPopulationColor(feature.properties.popTot || 0)}">${feature.properties.popTot || 0}</div>`,
+                                iconSize: [30, 30]
+                            })
+                        });
+                        marker.feature = feature;
+                        clusterGroup.addLayer(marker);
+                    }
                 }
             });
         }, 250);
 
-        // Add the moveend event listener
         map.on('moveend', renderViewport);
-        // Initial render
         renderViewport();
-
     } catch (e) {
-        console.error('Error loading population data:', e);
+        console.error('Feil ved lasting av befolkningsdata:', e);
+        alert("Kunne ikke laste befolkningsdata. Sjekk konsollen for mer info.");
     } finally {
         if (loadingDiv) {
             document.body.removeChild(loadingDiv);
