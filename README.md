@@ -2,51 +2,48 @@
 
 
 # Atomkrig  
-En fullstack webapplikasjon som simulerer effekten av en atombombe på Kristiansand og gir informasjon om tilfluktsrom, evakueringstider, samt befolkning og eiendommer i fare.
+En fullstack webapplikasjon som simulerer effekten av en atombombe på Kristiansand og gir informasjon om tilfluktsrom, brannstasjoner, samt befolkning og eiendommer i fare.
 
 ## 📖 Problemstilling  
 - **Hvis en atombombe skulle være på vei mot Kristiansand, hvor finner man nærmeste tilfluktsrom?**
 - **Hvor mange er det plass til i hvert tilfluktsrom?**
-- **Hvor god tid trenger man på å evakuere?**
 - **Hvem er innafor hvilke soner?**
   - Flammeradius
   - Høyeksplosiv skade
   - Moderat eksplosjonsskade
   - Varmestråling (tredjegrads forbrenning)
-- **Hvor mange og hvilke hus blir rammet?**
 - **Hvor mange personer er innafor området til atombomben?**
 
 ## 🛠 Teknologivalg  
 Prosjektet bruker følgende teknologier:  
 - **Frontend:** [Leaflet / Maplibre / OpenLayers]  
-- **Backend:** [Supabase / PostGIS / Node.js / .NET]  
+- **Backend:** [Supabase / PostGIS / Node.js]  
 - **Database:** [PostGIS i Supabase / PostgreSQL]  
-- **Databehandling:** [QGIS / TurfJS / Python]  
+- **Databehandling:** [QGIS / TurfJS ]  
 
 **Begrunnelse for teknologivalg:**  
-- **Leaflet** ble valgt for å visualisere geografiske data på en lettvekts og effektiv måte.  
-- **Supabase + PostGIS** gir oss en enkel måte å håndtere romlige spørringer og lagre geodata.  
-- **TurfJS** benyttes for å gjøre geospatiale analyser direkte i frontend.  
+- **Leaflet** ble valgt for å visualisere geografiske data på en smidig og effektiv måte.  
+- **Supabase + PostGIS** gir oss en enkel måte å håndtere romlige spørringer og lagre geodata.
 
 ## 🗺 Brukte datasett  
 Vi har benyttet følgende tre åpne datasett:  
 1. **Eiendommer i Kristiansand** – Kilde: GeoNorge  
 2. **Befolkningstall i Kristiansand** – Kilde: https://kartkatalog.geonorge.no/metadata/befolkning-paa-rutenett-250-m/0c0ad0ce-55e8-4d73-9c12-0eb0e2454acb 
-3. **Tilfluktsrom og brannstasjoner** – Kilde: [Offentlige datakilder]  
+3. **Tilfluktsrom og brannstasjoner** – Kilde: GeoNorge  
 
 ## 🚀 Implementasjon  
 ### 🔹 Backend  
 - Supabase/PostGIS brukes til å lagre og håndtere geodata.  
-- API-et tilbyr endepunkter for å hente og beregne geografiske analyser, som for eksempel avstand til nærmeste tilfluktsrom.  
+- API-et tilbyr endepunkter for å hente og beregne geografiske analyser, som for eksempel avstand til nærmeste tilfluktsrom.
+![Database](
 
 ### 🔹 Frontend  
 - **Leaflet**/Maplibre brukes til å visualisere kartdata som flammeradius, skadeområder og tilfluktsrom.  
 - Brukeren kan søke etter en adresse og få visualisert hvilke områder som er i fare.  
 
 ### 🔹 Brukerinteraksjon  
-- **Søkefunksjon:** Brukeren kan søke etter en adresse og få informasjon om risikoen i området.  
-- **Visualisering:** Kart med interaktive lag som viser soner for flammeradius, skadeområder og tilfluktsrom.  
-- **Evakueringstid:** Beregn tid for å evakuere til nærmeste tilfluktsrom.  
+- **Visualisering:** Kart med interaktive lag som viser soner for flammeradius, skadeområder, tilfluktsrom og brannstasjoner.  
+
 
 ## 🎥 Demo  
 ### 📸 Skjermbilder
