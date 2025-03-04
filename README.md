@@ -67,7 +67,7 @@ Vi har benyttet følgende tre åpne datasett:
 ![GIF2](https://raw.githubusercontent.com/vebjornkjus/IS-218-Oppg2/main/images/9m782w.gif)
 
   
-intaslasjon
+## intaslasjon
 Clon Repository 
 Trykk go live 
 
