@@ -16,8 +16,8 @@ En fullstack webapplikasjon som simulerer effekten av en atombombe på Kristians
 
 ## 🛠 Teknologivalg  
 Prosjektet bruker følgende teknologier:  
-- **Frontend:** [Leaflet / Maplibre / OpenLayers]  
-- **Backend:** [Supabase / PostGIS / Node.js]  
+- **Frontend:** [Leaflet]  
+- **Backend:** [Supabase / PostGIS]  
 - **Database:** [PostGIS i Supabase / PostgreSQL]  
 - **Databehandling:** [QGIS / TurfJS ]  
 
@@ -27,19 +27,18 @@ Prosjektet bruker følgende teknologier:
 
 ## 🗺 Brukte datasett  
 Vi har benyttet følgende tre åpne datasett:  
-1. **Eiendommer i Kristiansand** – Kilde: GeoNorge  
-2. **Befolkningstall i Kristiansand** – Kilde: https://kartkatalog.geonorge.no/metadata/befolkning-paa-rutenett-250-m/0c0ad0ce-55e8-4d73-9c12-0eb0e2454acb 
-3. **Tilfluktsrom og brannstasjoner** – Kilde: GeoNorge  
+1. **Tilfluktsrom i Agder** – Kilde: GeoNorge  
+2. **Befolkningstall i Agder** – Kilde: https://kartkatalog.geonorge.no/metadata/befolkning-paa-rutenett-250-m/0c0ad0ce-55e8-4d73-9c12-0eb0e2454acb 
+3. **Brannstasjoner i Agder** – Kilde: GeoNorge  
 
 ## 🚀 Implementasjon  
 ### 🔹 Backend  
 - Supabase/PostGIS brukes til å lagre og håndtere geodata.  
-- API-et tilbyr endepunkter for å hente og beregne geografiske analyser, som for eksempel avstand til nærmeste tilfluktsrom.
 ![Database](https://github.com/vebjornkjus/IS-218-Oppg2/blob/main/images/Tabeller1.png?raw=true)
 
 ### 🔹 Frontend  
-- **Leaflet**/Maplibre brukes til å visualisere kartdata som flammeradius, skadeområder og tilfluktsrom.  
-- Brukeren kan søke etter en adresse og få visualisert hvilke områder som er i fare.  
+- **Leaflet** brukes til å visualisere kartdata som flammeradius, skadeområder og tilfluktsrom.  
+
 
 ### 🔹 Brukerinteraksjon  
 - **Visualisering:** Kart med interaktive lag som viser soner for flammeradius, skadeområder, tilfluktsrom og brannstasjoner.  
