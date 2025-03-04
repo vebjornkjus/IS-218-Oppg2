@@ -16,10 +16,10 @@ En fullstack webapplikasjon som simulerer effekten av en atombombe på Kristians
 
 ## 🛠 Teknologivalg  
 Prosjektet bruker følgende teknologier:  
-- **Frontend:** [Leaflet]  
-- **Backend:** [Supabase / PostGIS]  
-- **Database:** [PostGIS i Supabase / PostgreSQL]  
-- **Databehandling:** [QGIS / TurfJS ]  
+- **Frontend:** [Leaflet / FontAwesome]
+- **Backend:** [Supabase / PostGIS]
+- **Database:** [PostGIS i Supabase / PostgreSQL] 
+- **Databehandling:** [QGIS / GeoJSON / TurfJS]
 
 **Begrunnelse for teknologivalg:**  
 - **Leaflet** ble valgt for å visualisere geografiske data på en smidig og effektiv måte.  
@@ -64,21 +64,17 @@ Følg disse stegene for å kjøre prosjektet lokalt:
    ```
 2. **Installer avhengigheter**  
    ```bash
-   npm install  # eller dotnet restore for .NET
+   npm install  
    ```
 3. **Start backend**  
    ```bash
-   npm run backend  # eller dotnet run for .NET
+   npm run backend 
    ```
 4. **Start frontend**  
    ```bash
    npm run dev
    ```
 
-## 🤝 Bidrag  
-1. **Fork repoet**  
-2. **Lag en ny branch**  
-3. **Gjennomfør endringer og lag en pull request**  
 
 ## 📜 Lisens  
 MIT-lisens - se `LICENSE`-filen for detaljer.  
