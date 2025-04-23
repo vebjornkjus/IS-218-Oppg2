@@ -63,8 +63,7 @@ Vi har benyttet følgende tre åpne datasett:
 ![Eksempelbilde 1](https://github.com/vebjornkjus/IS-218-Oppg2/blob/main/images/Screenshot.png?raw=true)
 
 ### 🎬 Video  
-![GIF1](https://raw.githubusercontent.com/vebjornkjus/IS-218-Oppg2/main/images/9m77x6.gif)
-![GIF2](https://raw.githubusercontent.com/vebjornkjus/IS-218-Oppg2/main/images/9m782w.gif)
+https://github.com/user-attachments/assets/8d0b45b6-120e-4f01-a5df-70046d1f0c21 
 
   
 ## intaslasjon
