@@ -33,6 +33,11 @@ En fullstack webapplikasjon som simulerer effekten av en atombombe på Kristians
   - Varmestråling (tredjegrads forbrenning)
 - **Hvor mange personer er innafor området til atombomben?**
 
+## Motivasjon for problemstilling 
+- Verden er i en urolig situasjon
+- Det var satt spørsmål til hvor store bombene var, og om det var mulig å komme seg til et tilfluktsrom som var trygt.
+- Hvor katastrofisk en atombombe faktisk hadde vært for Norge
+
 ## 🛠 Teknologivalg  
 Prosjektet bruker følgende teknologier:  
 - **Frontend:** [Leaflet / FontAwesome]
