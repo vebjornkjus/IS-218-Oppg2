@@ -1,6 +1,25 @@
 # IS-218-Oppg2
 
 
+## 📑 Innholdsfortegnelse
+
+1. [Introduksjon](#introduksjon)
+2. [📖 Problemstilling](#-problemstilling)
+3. [🛠 Teknologivalg](#-teknologivalg)
+4. [🗺 Brukte datasett](#-brukte-datasett)
+5. [🚀 Implementasjon](#-implementasjon)  
+   - [🔹 Backend](#-backend)  
+   - [🛠 Backend-funksjoner](#-backend-funksjoner)  
+     - Befolkningstall  
+     - Tilfluktsrom  
+   - [🔹 Frontend](#-frontend)  
+   - [🔹 Brukerinteraksjon](#-brukerinteraksjon)
+6. [🎥 Demo](#-demo)  
+   - [📸 Skjermbilder](#-skjermbilder)  
+   - [🎬 Video](#-video)
+7. [🧰 Installasjon](#instaslasjon)
+8. [📜 Lisens](#-lisens)
+
 # Atomkrig  
 En fullstack webapplikasjon som simulerer effekten av en atombombe på Kristiansand og gir informasjon om tilfluktsrom, brannstasjoner, samt befolkning og eiendommer i fare.
 
